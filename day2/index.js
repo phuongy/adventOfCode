@@ -35,3 +35,40 @@ const part1 = input => {
 
 console.log(part1(input1));
 console.log(part1(input2));
+
+const input3 = `5 9 2 8
+9 4 7 3
+3 8 6 5`;
+
+// const part2 = input => {
+//   return input
+//     .split('\n')
+//     .map(row => {
+//       return row
+//         .replace(/\t/g, ' ')
+//         .split(' ')
+//         .map(Number);
+//     })
+//     .map(row => {
+//       const index = 0;
+//       console.log('row', row);
+
+//       return row.reduce((acc, curr) => {
+//         const test = [curr, row[index]];
+//         index++;
+//         const max = Math.max(...test);
+//         const min = Math.min(...test);
+
+//         if (max % min === 0) {
+//           return max / min;
+//         }
+
+//         return acc;
+//       }, 0);
+//     })
+//     .reduce((acc, curr) => {
+//       return acc + curr;
+//     });
+// };
+
+// console.log(part1(input3));
