@@ -511,7 +511,7 @@ gyw xzgbi efus uuy
 hwcy ujdun bjjuvd jbdvju onnk xeyy mmp onkn qyzl
 jwfm ptjwrbl hhuv uolz adyweh qpj wxyogp igvnojq jmfw pqs fsnirby`;
 
-const checkPassphrases = list =>
+const part1 = list =>
   list
     .split('\n')
     .filter(
@@ -523,4 +523,21 @@ const checkPassphrases = list =>
           ).length === 0
     ).length;
 
-console.log('valid passphrases:', checkPassphrases(input));
+const part2 = list =>
+  list.split('\n').filter(
+    phrase =>
+      phrase
+        .split(' ')
+        .map(item =>
+          item
+            .split('')
+            .sort()
+            .join('')
+        )
+        .filter(
+          (curr, index, arr) => arr.filter(item => item === curr).length > 1
+        ).length === 0
+  ).length;
+
+console.log('part1:', part1(input));
+console.log('part2:', part2(input));
