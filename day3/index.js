@@ -27,8 +27,126 @@ const part1 = input => {
   return distance > 0 ? distance : 0;
 };
 
+const part2 = input => {
+  const createGrid = (grid, radius) => {
+    if (radius === 1) {
+      return [{ index: 1, radius: 1, position: 1 }];
+    }
+
+    const end = Math.pow(radius, 2);
+    const start = Math.pow(radius - 2, 2);
+    // let grid = [];//
+
+    for (let i = start + 1; i <= end; i++) {
+      grid = [
+        ...grid,
+        {
+          index: getValue(grid, radius, i - start),
+          radius,
+          position: i - start
+        }
+      ];
+    }
+
+    return grid;
+  };
+
+  const getValue = (grid, radius, position) => {
+    console.log('------------');
+    console.log('grid', grid, radius, position);
+
+    if (radius === 1) {
+      return 1;
+    }
+
+    const normalised = position % (radius + 1);
+    const previousRadius = radius - 2;
+    const corner = radius;
+
+    console.log('n', normalised, 'c', corner);
+    if (normalised === 1) {
+      console.log('first sq');
+      const adjacentSquares = [
+        ...grid.filter(
+          item => item.radius === previousRadius && item.position === position
+        ),
+        ...grid.filter(
+          item =>
+            item.radius === previousRadius && item.position === position + 1
+        )
+      ];
+
+      return adjacentSquares.reduce((acc, curr) => acc + curr.index, 0);
+    }
+
+    if (normalised === corner) {
+      console.log('corner sq');
+
+      const adjacentSquares = [
+        ...grid.filter(item => {
+          console.log('looking up', previousRadius, position);
+          return item.radius === previousRadius && item.position === position;
+        }),
+        ...grid.filter(item => {
+          console.log('looking up', previousRadius, position + 1);
+          return (
+            item.radius === previousRadius && item.position === position + 1
+          );
+        }),
+        ...grid.filter(item => {
+          console.log('looking up', radius, position - 1);
+          return item.radius === radius && item.position === position - 1;
+        })
+      ];
+
+      return adjacentSquares.reduce((acc, curr) => acc + curr.index, 0);
+    }
+
+    console.log('other sq', previousRadius, position);
+
+    const adjacentSquares = [
+      ...grid.filter(item => {
+        console.log('looking up', previousRadius, position);
+        return item.radius === previousRadius && item.position === position;
+      }),
+      ...grid.filter(item => {
+        console.log('looking up', previousRadius, position + 1);
+        return item.radius === previousRadius && item.position === position + 1;
+      }),
+      ...grid.filter(item => {
+        console.log('looking up', previousRadius, position - 1);
+        return item.radius === previousRadius && item.position === position - 1;
+      }),
+      ...grid.filter(item => {
+        console.log('looking up', radius, position - 1);
+        return item.radius === radius && item.position === position - 1;
+      })
+    ];
+
+    return adjacentSquares.reduce((acc, curr) => acc + curr.index, 0);
+  };
+
+  let radius = 1;
+  let grid = [];
+
+  while (input > Math.pow(radius, 2)) {
+    grid = createGrid(grid, radius);
+    radius += 2;
+  }
+
+  console.log('grid', grid);
+  return 0;
+  // return grid.pop().index;
+};
+
 console.log('input1:', part1(input1));
 console.log('input2:', part1(input2));
 console.log('input3:', part1(input3));
 console.log('input4:', part1(input4));
 console.log('input5:', part1(input5));
+
+console.log('input1:', part2(input1));
+console.log('input2:', part2(input2));
+// console.log('input3:', part2(input3));
+// console.log('input4:', part2(input4));
+// console.log('input5:', part2(input5));
